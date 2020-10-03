@@ -1,0 +1,3 @@
+files:
+  - source: /commands/
+    translation: /commands/%two_letters_code%/%original_file_name%
