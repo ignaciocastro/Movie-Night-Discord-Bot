@@ -6,7 +6,7 @@ module.exports = {
         'addmovie',
         'insert'
     ],
-    usage: '[nombre de pelicula o busqueda]',
+    usage: '[nombre de película o búsqueda]',
     args: true,
     async execute(message, args, main, callback, settings) {
         const search = args.join(' ');
