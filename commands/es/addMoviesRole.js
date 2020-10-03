@@ -1,7 +1,7 @@
 module.exports = {
     name: 'moviesrole',
-    description: 'Establece un rol que puede agregar películas a la lista del servidor. Tambien puedes borrar este rol usando moviesrole remove',
-    usage: '[@roleName]',
+    description: 'Establece un rol que puede agregar películas a la lista del servidor. También puedes borrar este rol usando moviesrole remove',
+    usage: '[@nombreRol]',
     args: true,
     admin: true,
     async execute(message, args, main, callback) {
