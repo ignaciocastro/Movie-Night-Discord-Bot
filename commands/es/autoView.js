@@ -1,7 +1,7 @@
 module.exports = {
     name: 'autoview',
-    description: 'Turns on or off auto view after poll is complete (Hides movie from future polls).',
-    usage: '[on or off]',
+    description: 'Enciende o apaga auto ver después de que termine la encuesta (Esconde la película de encuestas futuras).',
+    usage: '[on u off]',
     admin: true,
     async execute(message, args, main, callback, settings) {
         if (args.length > 1 || !args.length || args[0].toLowerCase() != 'on' && args[0].toLowerCase() != 'off') {
