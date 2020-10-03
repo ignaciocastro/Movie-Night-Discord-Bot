@@ -2,16 +2,16 @@ const emojis = require("../emojis.json");
 
 module.exports = {
 	name: "add",
-	description: "Adds movie to the servers list for movies to vote on and view.",
+	description: "Añade una película a la lista del servidor para votar y ver.",
 	aliases: ["addmovie", "insert"],
-	usage: "[movie name or search]",
+	usage: "[nombre de pelicula o busqueda]",
 	args: true,
 	async execute(message, args, main, callback, settings) {
 		const search = args.join(" ");
 
 		//Check if user has set a role for "Add" permissions, as only admins and this role will be able to add movies if set. 
 		if (settings.addMoviesRole && !message.member.roles.cache.has(settings.addMoviesRole) && !message.member.hasPermission("ADMINISTRATOR")) {
-			message.channel.send(`Movies can only be added by administrators or users with the role <@&${settings.addMoviesRole}>`);
+			message.channel.send(`Las películas son solo añadibles por administradores o usuarios con el rol <@&${settings.addMoviesRole}>`);
 
 			return callback();
 		}
@@ -23,7 +23,7 @@ module.exports = {
 				if (newMovie) {
 					newMovie.save(function(err) {
 						if (err && err.name == "MongoError") {
-							message.channel.send("Movie already exists in the list. It may be marked as 'Viewed'");
+							message.channel.send("La película ya está en la lista. Podría estar marcada como 'Vista'.");
 
 							return callback();
 						}
@@ -31,7 +31,7 @@ module.exports = {
 						if (!err) {
 							//If the search results from the API returned more than one result, we ask the user to confirm using REACTIONS on the message. 
 							if (data && (data.total_results > 1 || (data.movie_results && data.movie_results.length > 1))) {
-								const movieEmbed = main.buildSingleMovieEmbed(newMovie, "Is this the movie you want to add?");
+								const movieEmbed = main.buildSingleMovieEmbed(newMovie, "¿Esta es la película que quieres añadir?");
 			
 								message.channel.send(movieEmbed).then(async (embedMessage) => {
 									const filter = (reaction, user) => { return (reaction.emoji.name == emojis.yes || reaction.emoji.name == emojis.no) && user.id == message.author.id; };
@@ -40,7 +40,7 @@ module.exports = {
 										await embedMessage.react(emojis.yes);
 										await embedMessage.react(emojis.no);
 									} catch (e) {
-										console.log("Message deleted");
+										console.log("Mensaje borrado");
 
 										return removeMovie(newMovie, callback);
 									}
@@ -50,27 +50,27 @@ module.exports = {
 										const reaction = collected.first();
 
 										if (reaction.emoji.name == emojis.yes) {
-											message.channel.send("Movie will be added to the list!");
+											message.channel.send("¡La película será añadida a la lista!");
 
 											return callback();
 										} else {
-											message.channel.send("Movie will not be added to the list. Try using an IMDB link instead?");
+											message.channel.send("La película no pudo ser añadida a la lista. ¿Quizas intenta añadir un link de IMDB?");
 											
 											return removeMovie(newMovie, callback);
 										}
 									}).catch(() => {
-										message.channel.send("Movie will not be added, you didn't respond in time. Try using an IMDB link instead?");
+										message.channel.send("La película no pudo ser añadida a la lista, no respondiste a tiempo. ¿Quizas intenta añadir un link de IMDB?");
 
 										return removeMovie(newMovie, callback);
 									});
 								});
 							} else {
-								message.channel.send(main.buildSingleMovieEmbed(newMovie, "Movie Added!"));
+								message.channel.send(main.buildSingleMovieEmbed(newMovie, "¡Película añadida!"));
 
 								return callback();
 							}
 						} else {
-							message.channel.send("Something went wrong, couldn't run command");
+							message.channel.send("Ocurrió un error, no se pudo ejecutar el comando.");
 
 							return callback();
 						}
@@ -80,7 +80,7 @@ module.exports = {
 		} catch (e) {
 			console.error("Add.js", e);
 			
-			return message.channel.send("Something went wrong.");
+			return message.channel.send("Ocurrió un error.");
 		}
 	}	
 };
