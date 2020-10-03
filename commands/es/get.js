@@ -2,7 +2,7 @@ const {MessageEmbed} = require('discord.js');
 const moment = require('moment');
 module.exports = {
     name: 'get',
-    description: 'Returns list of all movies in current watch list for server, or if search is specified it will attempt to search the servers list for the movie.',
+    description: 'Entrega una lista de todas las películas en la watch list del server, o, si search es especificado intentará buscar la lista del servidor para la película.',
     aliases: [
         'list',
         'getmovie'
