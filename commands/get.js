@@ -10,7 +10,7 @@ module.exports = {
 		var number = 1;
 		var description = "";
 		var searchOptions = main.searchMovieDatabaseObject(message.guild.id, "", true);
-		var movieEmbed = new MessageEmbed().setTitle("Submitted Movies").setColor("#6441a3");
+		var movieEmbed = new MessageEmbed().setTitle("Películas solicitadas").setColor("#6441a3");
 		var movie = args ? args.join(" ") : null;
 
 		if (!args.length) {
