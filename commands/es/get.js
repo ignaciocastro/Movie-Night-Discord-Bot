@@ -12,28 +12,28 @@ module.exports = {
         var number = 1;
         var description = '';
         var searchOptions = main.searchMovieDatabaseObject(message.guild.id, '', true);
-        var movieEmbed = new MessageEmbed().setTitle('Submitted Movies').setColor('#6441a3');
+        var movieEmbed = new MessageEmbed().setTitle('Películas solicitadas').setColor('#6441a3');
         var movie = args ? args.join(' ') : null;
         if (!args.length) {
             //return to avoid hitting logic below.
             return main.movieModel.find(searchOptions, function (error, movies) {
                 if (error) {
-                    message.channel.send('Could not return list of movies, an error occured.');
+                    message.channel.send('No se pudo mostrar la lista de películas, ocurrió un problema.');
                     return callback();
                 }
                 if (movies.length == 0) {
-                    message.channel.send('List of unviewed movies is currently empty.');
+                    message.channel.send('La lista de películas aun no vistas está vacía.');
                     return callback();
                 } else if (movies && movies.length > 0) {
                     for (var movie of movies) {
-                        var stringConcat = `**[${ number }. ${ movie.name }](https://www.imdb.com/title/${ movie.imdbID })** submitted by ${ movie.submittedBy } on ${ moment(movie.submitted).format('DD MMM YYYY') }\n
-						**Release Date:** ${ moment(movie.releaseDate).format('DD MMM YYYY') } **Runtime:** ${ movie.runtime } Minutes **Rating:** ${ movie.rating }\n\n`;
+                        var stringConcat = `**[${ number }. ${ movie.name }](https://www.imdb.com/title/${ movie.imdbID })** solicitada por ${ movie.submittedBy } en ${ moment(movie.submitted).format('DD MMM YYYY') }\n
+						**Fecha de estreno:** ${ moment(movie.releaseDate).format('DD MMM YYYY') } **Duración:** ${ movie.runtime } Minutos **Rating:** ${ movie.rating }\n\n`;
                         //If the length of message has become longer than DISCORD API max, we split the message into a seperate embedded message.
                         if (description.length + stringConcat.length > 2048) {
                             movieEmbed.setDescription(description);
                             embeddedMessages.push(movieEmbed);
                             description = '';
-                            movieEmbed = new MessageEmbed().setTitle('Submitted Movies (Cont...)').setColor('#6441a3');
+                            movieEmbed = new MessageEmbed().setTitle('Películas solicitadas (Cont...)').setColor('#6441a3');
                         }
                         description += stringConcat;
                         number++;
@@ -53,7 +53,7 @@ module.exports = {
             if (movie) {
                 message.channel.send(main.buildSingleMovieEmbed(movie));
             } else {
-                message.channel.send('Could not find movie in your list. Perhaps try using the search command instead?');
+                message.channel.send('No se encontró la película en tu lista. ¿Quizas intenta usando el comando de busqueda?');
             }
             return callback();
         }).lean();
